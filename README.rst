@@ -13,6 +13,7 @@ Usage
 =====
 
 Append, remove or replace query string parameters from an url (preserve order)
+
 .. code-block::
 
     {% load qurl %}
