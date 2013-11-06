@@ -20,7 +20,7 @@ class QUrlTemplateTagTestCase(TestCase):
 
     def test_qurl_as(self):
         context = Context()
-        out = Template(
+        Template(
             '{% load qurl %}'
             '{% qurl "http://sophilabs.com/?a=1" a=None as url %}'
         ).render(context)
