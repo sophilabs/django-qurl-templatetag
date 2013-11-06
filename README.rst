@@ -1,7 +1,10 @@
 django-qurl-templatetag
 -----------------------
 
+Append, remove or replace query string parameters from an url (preserve order)
+
 .. image:: https://travis-ci.org/sophilabs/django-qurl-templatetag.png?branch=master
+
 
 Installation
 ============
