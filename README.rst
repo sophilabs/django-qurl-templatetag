@@ -7,7 +7,7 @@ Installation
 ============
 .. code-block::
 
-    pip install -e git+git@github.com:sophilabs/django-qurl-templatetag.git#egg=django-qurl-templatetad
+    pip install -e git+git@github.com:sophilabs/django-qurl-templatetag.git#egg=django-qurl-templatetag
 
 Usage
 =====
