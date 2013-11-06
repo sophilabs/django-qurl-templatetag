@@ -1,4 +1,7 @@
-"""qurl is a tag to append, remove or replace query string parameters from an url (preserve order)"""
+"""
+qurl is a tag to append, remove or replace query string
+parameters from an url (preserve order)
+"""
 
 import re
 from django.template import Library, Node, TemplateSyntaxError
@@ -13,7 +16,7 @@ register = Library()
 @register.tag
 def qurl(parser, token):
     """
-    Append, remove or replace query string parameters from an url (preserve order)
+    Append, remove or replace query string parameters (preserve order)
 
         {% qurl url [param]* [as <var_name>] %}
 
@@ -25,14 +28,16 @@ def qurl(parser, token):
 
     Example::
 
-        {% qurl '/search?page=1&color=blue&color=green' order='name' page=None color+='red' color-='green' %}
+        {% qurl '/search?page=1&color=blue&color=green'
+                 order='name' page=None color+='red' color-='green' %}
         Output: /search?color=blue&order=name&color=red
 
         {% qurl request.get_full_path order='name' %}
     """
     bits = token.split_contents()
     if len(bits) < 2:
-        raise TemplateSyntaxError("'%s' takes at least one argument (url)" % bits[0])
+        raise TemplateSyntaxError(
+            '"{0}" takes at least one argument (url)'.format(bits[0]))
 
     url = parser.compile_filter(bits[1])
 
