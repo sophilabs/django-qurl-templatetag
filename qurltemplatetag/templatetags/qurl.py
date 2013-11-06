@@ -10,11 +10,11 @@ from django.utils.encoding import smart_str
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import six
 
-if six.PY2:
+if six.PY3:
+    from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
+else:
     from urlparse import urlparse, parse_qsl, urlunparse
     from urllib import urlencode
-else:
-    from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
 
 
 register = Library()
