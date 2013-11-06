@@ -4,10 +4,12 @@ parameters from an url (preserve order)
 """
 
 import re
-from django.template import Library, Node, TemplateSyntaxError
+import django
+
 from urlparse import urlparse, parse_qsl, urlunparse
-from django.utils.encoding import smart_str
 from urllib import urlencode
+from django.utils.encoding import smart_str
+from django.template import Library, Node, TemplateSyntaxError
 
 
 register = Library()
@@ -76,12 +78,14 @@ class QURLNode(Node):
             value = value.resolve(context)
             value = smart_str(value) if value is not None else None
             if op == '+=':
-                qp = filter(lambda (n, v): not(n == name and v == value), qp)
+                qp = filter(lambda p: not(p[0] == name and p[1] == value), qp)
                 qp.append((name, value,))
             elif op == '-=':
-                qp = filter(lambda (n, v): not(n == name and v == value), qp)
+                qp = filter(lambda p: not(p[0] == name and p[1] == value), qp)
             elif op == '=':
-                qp = filter(lambda (n, v): not(n == name), qp)
+                if django.VERSION[0] <= 1 and django.VERSION[1] <= 4:
+                    value = value or None
+                qp = filter(lambda p: not(p[0] == name), qp)
                 if value is not None:
                     qp.append((name, value,))
 
