@@ -6,10 +6,15 @@ parameters from an url (preserve order)
 import re
 import django
 
-from urlparse import urlparse, parse_qsl, urlunparse
-from urllib import urlencode
 from django.utils.encoding import smart_str
 from django.template import Library, Node, TemplateSyntaxError
+from django.utils import six
+
+if six.PY2:
+    from urlparse import urlparse, parse_qsl, urlunparse
+    from urllib import urlencode
+else:
+    from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
 
 
 register = Library()
@@ -78,14 +83,14 @@ class QURLNode(Node):
             value = value.resolve(context)
             value = smart_str(value) if value is not None else None
             if op == '+=':
-                qp = filter(lambda p: not(p[0] == name and p[1] == value), qp)
+                qp = [p for p in qp if not(p[0] == name and p[1] == value)]
                 qp.append((name, value,))
             elif op == '-=':
-                qp = filter(lambda p: not(p[0] == name and p[1] == value), qp)
+                qp = [p for p in qp if not(p[0] == name and p[1] == value)]
             elif op == '=':
                 if django.VERSION[0] <= 1 and django.VERSION[1] <= 4:
                     value = value or None
-                qp = filter(lambda p: not(p[0] == name), qp)
+                qp = [p for p in qp if not(p[0] == name)]
                 if value is not None:
                     qp.append((name, value,))
 
