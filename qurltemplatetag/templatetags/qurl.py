@@ -9,6 +9,7 @@ import django
 from django.utils.encoding import smart_str
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import six
+from django.core.urlresolvers import reverse
 
 if six.PY3:
     from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
@@ -21,7 +22,7 @@ register = Library()
 
 
 @register.tag
-def qurl(parser, token):
+def qurl(parser, token, reverse=False):
     """
     Append, remove or replace query string parameters (preserve order)
 
@@ -64,19 +65,28 @@ def qurl(parser, token):
             name, op, value = match.groups()
             qs.append((name, op, parser.compile_filter(value),))
 
-    return QURLNode(url, qs, asvar)
+    return QURLNode(url, qs, asvar, reverse)
+
+
+@register.tag
+def rqurl(parser, token):
+    return qurl(parser, token, True)
 
 
 class QURLNode(Node):
     """Implements the actions of the qurl tag."""
 
-    def __init__(self, url, qs, asvar):
+    def __init__(self, url, qs, asvar, reverse):
         self.url = url
         self.qs = qs
         self.asvar = asvar
+        self.reverse = reverse
 
     def render(self, context):
-        urlp = list(urlparse(self.url.resolve(context)))
+        url = self.url.resolve(context)
+        if self.reverse:
+            url = reverse(url)
+        urlp = list(urlparse(url))
         qp = parse_qsl(urlp[4])
         for name, op, value in self.qs:
             name = smart_str(name)
