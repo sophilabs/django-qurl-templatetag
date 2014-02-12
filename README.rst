@@ -10,7 +10,7 @@ Installation
 ============
 .. code-block::
 
-    pip install django-qurl-templatetag
+    pip install -e git+https://github.com/sophilabs/django-qurl-templatetag.git#egg=django-qurl-templatetag
 
 After installation is done, add ``qurltemplatetag`` to the ``INSTALLED_APPS`` setting in your settings.py file:
 
