@@ -12,13 +12,13 @@ Installation
 
     pip install django-qurl-templatetag
 
-After installation is done, add ``qurl`` to the ``INSTALLED_APPS`` setting in your settings.py file:
+After installation is done, add ``qurltemplatetag`` to the ``INSTALLED_APPS`` setting in your settings.py file:
 
 .. code-block::
 
     INSTALLED_APPS = (
         # …
-        'qurl',
+        'qurltemplatetag',
     )
 
 
