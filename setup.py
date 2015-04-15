@@ -9,5 +9,4 @@ setup(name='django-qurl-templatetag',
       author_email='hi@sophilabs.com',
       url='https://github.com/sophilabs/django-qurl-templatetag/',
       description='qurl is a tag to append, remove or replace query '
-                  'string parameters from an url (preserve order)',
-      long_description=open("README.rst").read())
+                  'string parameters from an url (preserve order)')
