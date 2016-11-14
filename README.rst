@@ -46,6 +46,7 @@ After installation is done, add ``qurl_templatetag`` to the ``INSTALLED_APPS`` s
     INSTALLED_APPS = (
         # …
         'qurl_templatetag',
+        # …
     )
 
 Usage
