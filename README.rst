@@ -10,7 +10,7 @@ Django QUrl Template Tag
         :target: https://travis-ci.org/sophilabs/django-qurl-templatetag
 
 .. image:: https://readthedocs.org/projects/django-qurl-templatetag/badge/?version=latest
-        :target: https://django-qurl-templatetag.readthedocs.io/en/latest/?badge=latest
+        :target: http://django-qurl-templatetag.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/sophilabs/django-qurl-templatetag/shield.svg
