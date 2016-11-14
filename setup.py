@@ -17,9 +17,11 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
+version = '0.0.3'
+
 setup(
     name='django-qurl-templatetag',
-    version='version='0.0.3'',
+    version=version,
     description="A Django template tag to modify url's query string.",
     long_description=readme + '\n\n' + history,
     author='Sophilabs',
