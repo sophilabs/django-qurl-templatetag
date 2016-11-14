@@ -2,7 +2,18 @@
 Usage
 =====
 
-To use QUrl Template Tag in a project:
+After installation is done, add ``qurl_templatetag`` to the ``INSTALLED_APPS`` setting in your settings.py file:
+
+.. code-block::
+
+    INSTALLED_APPS = (
+        # …
+        'qurl_templatetag',
+        # …
+    )
+
+
+Then just load the template tag into your template file and use it.
 
 .. code-block::
 
