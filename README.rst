@@ -17,14 +17,27 @@ Django QUrl Template Tag
      :target: https://pyup.io/repos/github/sophilabs/django-qurl-templatetag/
      :alt: Updates
 
+.. image:: https://img.shields.io/codecov/c/github/sophilabs/django-qurl-templatetag.svg
+    :target: https://codecov.io/gh/sophilabs/django-qurl-templatetag
+
+
 A Django template tag to modify url's query string.
 
 
-Installation
-------------
+Documentation
+-------------
+
+The full documentation is at https://django-url-templatetag.readthedocs.org.
+
+
+Quick Start
+-----------
+
+Install Django QUrl Template Tag:
+
 .. code-block::
 
-    pip install -e git+https://github.com/sophilabs/django-qurl-templatetag.git#egg=django-qurl-templatetag
+    pip install django-qurl-templatetag
 
 After installation is done, add ``qurl_templatetag`` to the ``INSTALLED_APPS`` setting in your settings.py file:
 
@@ -35,12 +48,8 @@ After installation is done, add ``qurl_templatetag`` to the ``INSTALLED_APPS`` s
         'qurl_templatetag',
     )
 
-
-
 Usage
 -----
-
-Append, remove or replace query string parameters from an url (preserve order)
 
 .. code-block::
 
@@ -61,6 +70,13 @@ Append, remove or replace query string parameters from an url (preserve order)
 
         {% qurl request.get_full_path order='name' %}
 
+
+Tests
+-----
+
+.. code-block::
+    $ pip install -r requirements/test.pip
+    $ python runtests.py
 
 About
 -----
