@@ -1,28 +1,44 @@
-language: python
-python:
-  - 2.6
-  - 2.7
-  - 3.2
-  - 3.3
 env:
-  - DJANGO='django>=1.4.2,<1.5'
-  - DJANGO='django>=1.5,<1.6'
-  - DJANGO='git+git://github.com/django/django.git@1.6b1'
-matrix:
-  exclude:
-    - python: 3.2
-      env: DJANGO='django>=1.4.2,<1.5'
-    - python: 3.3
-      env: DJANGO='django>=1.4.2,<1.5'
+    - TOXENV=flake8
+    - TOXENV=py27-django17
+    - TOXENV=py27-django18
+    - TOXENV=py27-django19
+    - TOXENV=py27-django110
+    - TOXENV=py33-django17
+    - TOXENV=py33-django18
+    - TOXENV=py34-django17
+    - TOXENV=py34-django18
+    - TOXENV=py34-django19
+    - TOXENV=py34-django110
+    - TOXENV=py35-django18
+    - TOXENV=py35-django19
+    - TOXENV=py35-django110
+
+language: python
+
+python: 3.5
+
 before_install:
-  - export PIP_USE_MIRRORS=true
-install:
-  - pip install coveralls $DJANGO flake8
-  - pip install -e .
-before_script:
-  - export DJANGO_SETTINGS_MODULE=test_settings
-  - flake8 .
-script:
-  - coverage run --include='*qurltemplatetag*' --omit='*test_settings.py,*tests.py' $(which django-admin.py) test qurltemplatetag
+    - pip install codecov
+
+install: pip install -U tox
+
+script: tox -e ${TOXENV}
+
 after_success:
-  - coveralls
+    - codecov
+
+deploy:
+  true:
+    condition: $TOXENV == py35-django110
+    repo: sophilabs/django-qurl-templatetag
+    tags: true
+  distributions: sdist bdist_wheel
+  provider: pypi
+  password:
+    secure: !!binary |
+      UFBBQjZ2dTJQNlUxTFNMRmRrQjRLK2tZV2JoWnQ3cUx6bEZwRERCWlgxUy82MGgzdW1wOTlDSGR5
+      SXUwcHdJbFU4Mmk1NW1mcVhaS1VpR2R6SkZuQkxqWHZGcFhIR21NRGtrRUZuY3UydXFvZFNhRUUx
+      Uy9qM0RJbmg0NUZzUlY3bVJHSmlXZktWekdvTWlhZ2JlSHBBbnF4d0drcjgxd0hXY1ZhV21idTVR
+      PQ==
+  user: sophilabs

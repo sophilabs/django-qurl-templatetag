@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+test_qurl_templatetag
+----------------------------------
+
+Tests for `qurl_templatetag` module.
+"""
+
+
 from django.test import TestCase
 from django.template import Template, Context
 

@@ -1,30 +1,44 @@
-django-qurl-templatetag
------------------------
+===============================
+Django QUrl Template Tag
+===============================
 
-Append, remove or replace query string parameters from an url (preserve order)
 
-.. image:: https://travis-ci.org/sophilabs/django-qurl-templatetag.png?branch=master
+.. image:: https://img.shields.io/pypi/v/django-qurl-templatetag.svg
+        :target: https://pypi.python.org/pypi/django-qurl-templatetag
+
+.. image:: https://img.shields.io/travis/sophilabs/django-qurl-templatetag.svg
+        :target: https://travis-ci.org/sophilabs/django-qurl-templatetag
+
+.. image:: https://readthedocs.org/projects/django-qurl-templatetag/badge/?version=latest
+        :target: https://django-qurl-templatetag.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
+
+.. image:: https://pyup.io/repos/github/sophilabs/django-qurl-templatetag/shield.svg
+     :target: https://pyup.io/repos/github/sophilabs/django-qurl-templatetag/
+     :alt: Updates
+
+A Django template tag to modify url's query string.
 
 
 Installation
-============
+------------
 .. code-block::
 
     pip install -e git+https://github.com/sophilabs/django-qurl-templatetag.git#egg=django-qurl-templatetag
 
-After installation is done, add ``qurltemplatetag`` to the ``INSTALLED_APPS`` setting in your settings.py file:
+After installation is done, add ``qurl_templatetag`` to the ``INSTALLED_APPS`` setting in your settings.py file:
 
 .. code-block::
 
     INSTALLED_APPS = (
         # …
-        'qurltemplatetag',
+        'qurl_templatetag',
     )
 
 
 
 Usage
-=====
+-----
 
 Append, remove or replace query string parameters from an url (preserve order)
 

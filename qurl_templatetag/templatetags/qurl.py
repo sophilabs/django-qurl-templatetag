@@ -9,7 +9,6 @@ import django
 from django.utils.encoding import smart_str
 from django.template import Library, Node, TemplateSyntaxError
 from django.utils import six
-from django.core.urlresolvers import reverse
 
 if six.PY3:
     from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
@@ -22,7 +21,7 @@ register = Library()
 
 
 @register.tag
-def qurl(parser, token, reverse=False):
+def qurl(parser, token):
     """
     Append, remove or replace query string parameters (preserve order)
 
@@ -57,15 +56,15 @@ def qurl(parser, token, reverse=False):
 
     qs = []
     if len(bits):
-        kwarg_re = re.compile(r"(\w+)(\-=|\+=|=)(.*)")
+        kwarg_re = re.compile(r'(\w+)(\-=|\+=|=)(.*)')
         for bit in bits:
             match = kwarg_re.match(bit)
             if not match:
-                raise TemplateSyntaxError("Malformed arguments to url tag")
+                raise TemplateSyntaxError('Malformed arguments to url tag')
             name, op, value = match.groups()
             qs.append((name, op, parser.compile_filter(value),))
 
-    return QURLNode(url, qs, asvar, reverse)
+    return QURLNode(url, qs, asvar)
 
 
 @register.tag
@@ -76,16 +75,13 @@ def rqurl(parser, token):
 class QURLNode(Node):
     """Implements the actions of the qurl tag."""
 
-    def __init__(self, url, qs, asvar, reverse):
+    def __init__(self, url, qs, asvar):
         self.url = url
         self.qs = qs
         self.asvar = asvar
-        self.reverse = reverse
 
     def render(self, context):
         url = self.url.resolve(context)
-        if self.reverse:
-            url = reverse(url)
         urlp = list(urlparse(url))
         qp = parse_qsl(urlp[4])
         for name, op, value in self.qs:
