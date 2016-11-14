@@ -60,3 +60,13 @@ Append, remove or replace query string parameters from an url (preserve order)
         Output: /search?color=blue&order=name&color=red
 
         {% qurl request.get_full_path order='name' %}
+
+
+About
+-----
+
+.. image:: https://res.cloudinary.com/jsconfuy/image/upload/c_pad,f_auto,h_200,w_200,e_trim/v1426608244/xuwbunompvfjaxuazlwo.png
+    :target: https://sophilabs.co
+
+Django Qurl Template Tag is maintained and funded by sophilabs, inc. The names and logos for
+sophilabs are trademarks of sophilabs, inc.
