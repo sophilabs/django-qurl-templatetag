@@ -76,6 +76,7 @@ Tests
 -----
 
 .. code-block::
+
     $ pip install -r requirements/test.pip
     $ python runtests.py
 
