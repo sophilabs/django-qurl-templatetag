@@ -17,7 +17,7 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
-version = '0.0.8'
+version = '0.0.9'
 
 setup(
     name='django-qurl-templatetag',
