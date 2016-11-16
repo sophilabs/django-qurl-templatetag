@@ -21,7 +21,7 @@ python: 3.5
 before_install:
     - pip install codecov
 
-install: pip install -U tox
+install: pip install -U tox twine wheel
 
 script: tox -e ${TOXENV}
 
