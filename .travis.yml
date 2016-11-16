@@ -1,44 +1,40 @@
 env:
-    - TOXENV=flake8
-    - TOXENV=py27-django17
-    - TOXENV=py27-django18
-    - TOXENV=py27-django19
-    - TOXENV=py27-django110
-    - TOXENV=py33-django17
-    - TOXENV=py33-django18
-    - TOXENV=py34-django17
-    - TOXENV=py34-django18
-    - TOXENV=py34-django19
-    - TOXENV=py34-django110
-    - TOXENV=py35-django18
-    - TOXENV=py35-django19
-    - TOXENV=py35-django110
+  - TOXENV=flake8
+  - TOXENV=py27-django17
+  - TOXENV=py27-django18
+  - TOXENV=py27-django19
+  - TOXENV=py27-django110
+  - TOXENV=py33-django17
+  - TOXENV=py33-django18
+  - TOXENV=py34-django17
+  - TOXENV=py34-django18
+  - TOXENV=py34-django19
+  - TOXENV=py34-django110
+  - TOXENV=py35-django18
+  - TOXENV=py35-django19
+  - TOXENV=py35-django110
 
 language: python
 
 python: 3.5
 
 before_install:
-    - pip install codecov
+  - pip install codecov
 
 install: pip install -U tox
 
 script: tox -e ${TOXENV}
 
 after_success:
-    - codecov
+  - codecov
 
 deploy:
-  true:
+  provider: pypi
+  user: sophilabs
+  password:
+    secure: SL52TviiKyBoJiQtAvywI3F6eJgngI0DNWa66ZZJroikTZXcp5zeO48bQCcT/g1H5dNfUsTBBc17jvE0tGu3F6WR8p9OAiHD1GIv9rn+kWJPkByHyrS5oCfmjFj81/N9F7FDwHcdt8Aide/Ik/OG8VaChE8jDKJuoA7hKumRSNg=
+  on:
     condition: $TOXENV == py35-django110
+    distributions: sdist bdist_wheel
     repo: sophilabs/django-qurl-templatetag
     tags: true
-  distributions: sdist bdist_wheel
-  provider: pypi
-  password:
-    secure: !!binary |
-      UFBBQjZ2dTJQNlUxTFNMRmRrQjRLK2tZV2JoWnQ3cUx6bEZwRERCWlgxUy82MGgzdW1wOTlDSGR5
-      SXUwcHdJbFU4Mmk1NW1mcVhaS1VpR2R6SkZuQkxqWHZGcFhIR21NRGtrRUZuY3UydXFvZFNhRUUx
-      Uy9qM0RJbmg0NUZzUlY3bVJHSmlXZktWekdvTWlhZ2JlSHBBbnF4d0drcjgxd0hXY1ZhV21idTVR
-      PQ==
-  user: sophilabs
