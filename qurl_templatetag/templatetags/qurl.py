@@ -32,6 +32,8 @@ def qurl(parser, token):
             name=None: remove all values of name
             name+=value: append a new value for name
             name-=value: remove the value of name with the value
+            name++: increment value by one
+            name--: decrement value by one
 
     Example::
 
@@ -56,7 +58,7 @@ def qurl(parser, token):
 
     qs = []
     if len(bits):
-        kwarg_re = re.compile(r'(\w+)(\-=|\+=|=)(.*)')
+        kwarg_re = re.compile(r'(\w+)(\-=|\+=|=|\+\+|\-\-)(.*)')
         for bit in bits:
             match = kwarg_re.match(bit)
             if not match:
@@ -65,6 +67,41 @@ def qurl(parser, token):
             qs.append((name, op, parser.compile_filter(value),))
 
     return QURLNode(url, qs, asvar)
+
+
+class Qurl(object):
+
+    def __init__(self, url):
+        self.url = url
+        self.qsl = parse_qsl(urlparse(url).query)
+
+    def set(self, name, value):
+        if django.VERSION[0] <= 1 and django.VERSION[1] <= 4:
+            value = value or None
+        self.qsl = [(q, v) for (q, v) in self.qsl if q != name]
+        if value is not None:
+            self.qsl.append((name, value))
+
+    def add(self, name, value):
+        self.qsl = [p for p in self.qsl if not(p[0] == name and p[1] == value)]
+        self.qsl.append((name, value,))
+
+    def remove(self, name, value):
+        self.qsl = [qb for qb in self.qsl if qb != (name, str(value))]
+
+    def inc(self, name, value=1):
+        self.qsl = [(q, v) if q != name else (q, int(v) + value)
+                    for (q, v) in self.qsl]
+        if name not in dict(self.qsl).keys():
+            self.qsl.append((name, value))
+
+    def dec(self, name, value=1):
+        self.inc(name, -value)
+
+    def get(self):
+        parsed = list(urlparse(self.url))
+        parsed[4] = urlencode(self.qsl)
+        return urlunparse(parsed)
 
 
 @register.tag
@@ -81,28 +118,24 @@ class QURLNode(Node):
         self.asvar = asvar
 
     def render(self, context):
-        url = self.url.resolve(context)
-        urlp = list(urlparse(url))
-        qp = parse_qsl(urlp[4])
+        render_qurl = Qurl(self.url.resolve(context))
+
         for name, op, value in self.qs:
             name = smart_str(name)
             value = value.resolve(context)
             value = smart_str(value) if value is not None else None
             if op == '+=':
-                qp = [p for p in qp if not(p[0] == name and p[1] == value)]
-                qp.append((name, value,))
+                render_qurl.add(name, value)
             elif op == '-=':
-                qp = [p for p in qp if not(p[0] == name and p[1] == value)]
+                render_qurl.remove(name, value)
             elif op == '=':
-                if django.VERSION[0] <= 1 and django.VERSION[1] <= 4:
-                    value = value or None
-                qp = [p for p in qp if not(p[0] == name)]
-                if value is not None:
-                    qp.append((name, value,))
+                render_qurl.set(name, value)
+            elif op == '++':
+                render_qurl.inc(name)
+            elif op == '--':
+                render_qurl.dec(name)
 
-        urlp[4] = urlencode(qp, True)
-        url = urlunparse(urlp)
-
+        url = render_qurl.get()
         if self.asvar:
             context[self.asvar] = url
             return ''
