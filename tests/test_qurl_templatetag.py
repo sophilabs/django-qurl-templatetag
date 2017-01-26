@@ -77,41 +77,41 @@ class QurlTestCase(TestCase):
     def test_set(self):
         qurl = Qurl('http://sophilabs.com/?a=1')
 
-        qurl.set('a', 2)
+        qurl = qurl.set('a', 2)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=2')
 
-        qurl.set('b', 1)
+        qurl = qurl.set('b', 1)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=2&b=1')
 
-        qurl.set('a', 3)
+        qurl = qurl.set('a', 3)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?b=1&a=3')
 
     def test_add(self):
         qurl = Qurl('http://sophilabs.com/?a=1')
 
-        qurl.add('a', 2)
+        qurl = qurl.add('a', 2)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=1&a=2')
 
-        qurl.add('b', 9)
+        qurl = qurl.add('b', 9)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=1&a=2&b=9')
 
     def test_remove(self):
         qurl = Qurl('http://sophilabs.com/?a=1&a=3')
 
-        qurl.remove('a', 3)
+        qurl = qurl.remove('a', 3)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=1')
 
     def test_inc(self):
         qurl = Qurl('http://sophilabs.com/?a=1')
 
-        qurl.inc('a', 1)
+        qurl = qurl.inc('a', 1)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=2')
 
-        qurl.inc('b', 1)
+        qurl = qurl.inc('b', 1)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=2&b=1')
 
     def test_dec(self):
         qurl = Qurl('http://sophilabs.com/?a=4')
 
-        qurl.dec('a', 1)
+        qurl = qurl.dec('a', 1)
         self.assertEqual(qurl.get(), 'http://sophilabs.com/?a=3')

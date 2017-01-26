@@ -73,34 +73,46 @@ class Qurl(object):
 
     def __init__(self, url):
         self.url = url
-        self.qsl = parse_qsl(urlparse(url).query)
+        self._qsl = parse_qsl(urlparse(url).query)
 
     def set(self, name, value):
+        clone = self._clone()
         if django.VERSION[0] <= 1 and django.VERSION[1] <= 4:
             value = value or None
-        self.qsl = [(q, v) for (q, v) in self.qsl if q != name]
+        clone._qsl = [(q, v) for (q, v) in self._qsl if q != name]
         if value is not None:
-            self.qsl.append((name, value))
+            clone._qsl.append((name, value))
+        return clone
 
     def add(self, name, value):
-        self.qsl = [p for p in self.qsl if not(p[0] == name and p[1] == value)]
-        self.qsl.append((name, value,))
+        clone = self._clone()
+        clone._qsl = [p for p in self._qsl
+                      if not(p[0] == name and p[1] == value)]
+        clone._qsl.append((name, value,))
+        return clone
 
     def remove(self, name, value):
-        self.qsl = [qb for qb in self.qsl if qb != (name, str(value))]
+        clone = self._clone()
+        clone._qsl = [qb for qb in self._qsl if qb != (name, str(value))]
+        return clone
 
     def inc(self, name, value=1):
-        self.qsl = [(q, v) if q != name else (q, int(v) + value)
-                    for (q, v) in self.qsl]
-        if name not in dict(self.qsl).keys():
-            self.qsl.append((name, value))
+        clone = self._clone()
+        clone._qsl = [(q, v) if q != name else (q, int(v) + value)
+                      for (q, v) in self._qsl]
+        if name not in dict(clone._qsl).keys():
+            clone._qsl.append((name, value))
+        return clone
 
     def dec(self, name, value=1):
-        self.inc(name, -value)
+        return self._clone().inc(name, -value)
+
+    def _clone(self):
+        return Qurl(self.get())
 
     def get(self):
         parsed = list(urlparse(self.url))
-        parsed[4] = urlencode(self.qsl)
+        parsed[4] = urlencode(self._qsl)
         return urlunparse(parsed)
 
 
@@ -125,15 +137,15 @@ class QURLNode(Node):
             value = value.resolve(context)
             value = smart_str(value) if value is not None else None
             if op == '+=':
-                render_qurl.add(name, value)
+                render_qurl = render_qurl.add(name, value)
             elif op == '-=':
-                render_qurl.remove(name, value)
+                render_qurl = render_qurl.remove(name, value)
             elif op == '=':
-                render_qurl.set(name, value)
+                render_qurl = render_qurl.set(name, value)
             elif op == '++':
-                render_qurl.inc(name)
+                render_qurl = render_qurl.inc(name)
             elif op == '--':
-                render_qurl.dec(name)
+                render_qurl = render_qurl.dec(name)
 
         url = render_qurl.get()
         if self.asvar:
