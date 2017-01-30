@@ -4,18 +4,11 @@ parameters from an url (preserve order)
 """
 
 import re
-import django
 
 from django.utils.encoding import smart_str
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils import six
 
-if six.PY3:
-    from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
-else:
-    from urlparse import urlparse, parse_qsl, urlunparse
-    from urllib import urlencode
-
+from .. import Qurl
 
 register = Library()
 
@@ -67,53 +60,6 @@ def qurl(parser, token):
             qs.append((name, op, parser.compile_filter(value),))
 
     return QURLNode(url, qs, asvar)
-
-
-class Qurl(object):
-
-    def __init__(self, url):
-        self.url = url
-        self._qsl = parse_qsl(urlparse(url).query)
-
-    def set(self, name, value):
-        clone = self._clone()
-        if django.VERSION[0] <= 1 and django.VERSION[1] <= 4:
-            value = value or None
-        clone._qsl = [(q, v) for (q, v) in self._qsl if q != name]
-        if value is not None:
-            clone._qsl.append((name, value))
-        return clone
-
-    def add(self, name, value):
-        clone = self._clone()
-        clone._qsl = [p for p in self._qsl
-                      if not(p[0] == name and p[1] == value)]
-        clone._qsl.append((name, value,))
-        return clone
-
-    def remove(self, name, value):
-        clone = self._clone()
-        clone._qsl = [qb for qb in self._qsl if qb != (name, str(value))]
-        return clone
-
-    def inc(self, name, value=1):
-        clone = self._clone()
-        clone._qsl = [(q, v) if q != name else (q, int(v) + value)
-                      for (q, v) in self._qsl]
-        if name not in dict(clone._qsl).keys():
-            clone._qsl.append((name, value))
-        return clone
-
-    def dec(self, name, value=1):
-        return self._clone().inc(name, -value)
-
-    def _clone(self):
-        return Qurl(self.get())
-
-    def get(self):
-        parsed = list(urlparse(self.url))
-        parsed[4] = urlencode(self._qsl)
-        return urlunparse(parsed)
 
 
 @register.tag
