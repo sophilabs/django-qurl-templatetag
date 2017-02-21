@@ -17,7 +17,7 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
-version = '0.0.11'
+version = '0.0.12'
 
 setup(
     name='django-qurl-templatetag',
@@ -28,7 +28,7 @@ setup(
     author_email='hi@sophilabs.com',
     url='https://github.com/sophilabs/django-qurl-templatetag',
     packages=[
-        'qurl_templatetag',
+        'qurl_templatetag', 'qurl_templatetag.templatetags'
     ],
     package_dir={
         'qurl_templatetag': 'qurl_templatetag'
