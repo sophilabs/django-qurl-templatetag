@@ -49,8 +49,8 @@ After installation is done, add ``qurl_templatetag`` to the ``INSTALLED_APPS`` s
         # …
     )
 
-Usage
------
+Tag Usage
+---------
 
 .. code-block::
 
@@ -63,6 +63,8 @@ Usage
             name=None: remove all values of name
             name+=value: append a new value for name
             name-=value: remove the value of name with the value
+            name++: increment the value by one
+            name--: decrement the value by one
 
     Example:
 
@@ -70,6 +72,33 @@ Usage
         Output: /search?color=blue&order=name&color=red
 
         {% qurl request.get_full_path order='name' %}
+
+
+Library Usage
+-------------
+
+A Qurl object has a set of chainable methods to modify the querystring parameters.
+
+Available methods are:
+
+* set: replace all values of name by one value, parameter is removed when value is None
+* add: append a new value for name
+* remove: remove the value of name with the value
+* inc: increment the value by another value (optional, defaults to 1)
+* dec: decrement the value by another value (optional, defaults to 1)
+* get: build the url
+
+.. code-block::
+
+    from qurl_templatetag import Qurl
+
+    >>> Qurl('http://www.sophilabs.co/?page=1&tags=python')\
+            .inc('page', value=2)\
+            .add('tags', 'django')\
+            .add('tags', 'web')\
+            .remove('tags', 'python')\
+            .get()
+    http://www.sophilabs.co/?page=3&tags=django&tags=web
 
 
 Tests
