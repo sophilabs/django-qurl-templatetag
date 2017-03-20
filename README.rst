@@ -112,7 +112,7 @@ Tests
 About
 -----
 
-.. image:: https://res.cloudinary.com/jsconfuy/image/upload/c_pad,f_auto,h_200,w_200,e_trim/v1426608244/xuwbunompvfjaxuazlwo.png
+.. image:: https://s3.amazonaws.com/sophilabs-assets/logo/logo_300x66.gif
     :target: https://sophilabs.co
 
 Django Qurl Template Tag is maintained and funded by sophilabs, inc. The names and logos for
