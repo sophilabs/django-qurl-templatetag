@@ -1,5 +1,5 @@
+import six
 import django
-from django.utils import six
 
 if six.PY3:
     from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
