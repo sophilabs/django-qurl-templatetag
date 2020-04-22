@@ -11,11 +11,27 @@ env:
 
 language: python
 
-python:
-  - 3.5
-  - 3.6
-  - 3.7
-  - 3.8
+matrix:
+  fast_finish: true
+  include:
+    - python: '3.5'
+      env: TOX_ENV=flake8
+    - python: '3.5'
+      env: TOXENV=py35-django20
+    - python: '3.7'
+      env: TOXENV=py37-django20
+    - python: '3.5'
+      env: TOXENV=py35-django21
+    - python: '3.7'
+      env: TOXENV=py37-django21
+    - python: '3.5'
+      env: TOXENV=py35-django22
+    - python: '3.8'
+      env: TOXENV=py38-django22
+    - python: '3.6'
+      env: TOXENV=py36-django30
+    - python: '3.8'
+      env: TOXENV=py38-django30
 
 before_install:
   - pip install codecov
