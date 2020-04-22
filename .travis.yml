@@ -1,3 +1,10 @@
+sudo: false
+dist: bionic
+
+language: python
+python:
+  - '3.5'
+
 env:
   - TOXENV=flake8
   - TOXENV=py35-django20
@@ -8,10 +15,6 @@ env:
   - TOXENV=py38-django22
   - TOXENV=py36-django30
   - TOXENV=py38-django30
-
-language: python
-python:
-  - '3.5'
 
 matrix:
   fast_finish: true
