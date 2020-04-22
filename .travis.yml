@@ -1,18 +1,13 @@
 env:
   - TOXENV=flake8
-  - TOXENV=py27-django17
-  - TOXENV=py27-django18
-  - TOXENV=py27-django19
-  - TOXENV=py27-django110
-  - TOXENV=py33-django17
-  - TOXENV=py33-django18
-  - TOXENV=py34-django17
-  - TOXENV=py34-django18
-  - TOXENV=py34-django19
-  - TOXENV=py34-django110
-  - TOXENV=py35-django18
-  - TOXENV=py35-django19
-  - TOXENV=py35-django110
+  - TOXENV=py35-django20
+  - TOXENV=py37-django20
+  - TOXENV=py35-django21
+  - TOXENV=py37-django21
+  - TOXENV=py35-django22
+  - TOXENV=py38-django22
+  - TOXENV=py36-django30
+  - TOXENV=py38-django30
 
 language: python
 
@@ -34,7 +29,7 @@ deploy:
   password:
     secure: SL52TviiKyBoJiQtAvywI3F6eJgngI0DNWa66ZZJroikTZXcp5zeO48bQCcT/g1H5dNfUsTBBc17jvE0tGu3F6WR8p9OAiHD1GIv9rn+kWJPkByHyrS5oCfmjFj81/N9F7FDwHcdt8Aide/Ik/OG8VaChE8jDKJuoA7hKumRSNg=
   on:
-    condition: $TOXENV == py35-django110
+    condition: $TOXENV == py36-django30
     distributions: sdist bdist_wheel
     repo: sophilabs/django-qurl-templatetag
     tags: true

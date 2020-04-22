@@ -1,11 +1,5 @@
 import django
-from django.utils import six
-
-if six.PY3:
-    from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
-else:
-    from urlparse import urlparse, parse_qsl, urlunparse
-    from urllib import urlencode
+from urllib.parse import urlparse, parse_qsl, urlunparse, urlencode
 
 
 class Qurl(object):

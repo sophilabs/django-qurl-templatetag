@@ -1,7 +1,7 @@
-codecov>=1.4.0
-coverage==4.1
-mock>=1.0.1
-flake8>=2.1.0
-tox>=1.7.0
-requests>=2.11.1
-requests-toolbelt==0.6.2
+codecov==2.0.22
+coverage==4.2
+mock==3.0.5
+flake8==3.7.9
+tox==3.14.6
+requests==2.23.0
+requests-toolbelt==0.9.1
